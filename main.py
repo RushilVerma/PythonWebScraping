@@ -13,11 +13,27 @@ req = requests.get(url, headers= headers)
 
 #req.status_code #200 is good
 
-soup = BeautifulSoup(req.content, "html.parser",features = 'lxml')
+soup = BeautifulSoup(req.content, "lxml")
 
 #print(soup.get_text()) #to get only text
 #print(soup.prettify()) #to get html src in nicely formated form
 
-info = soup.find('span'{'id': 'priceblock_ourprice'}).text
+info = soup.find('div',{'class': 'searchlistitems'})
 
-print(info)
+total_entries = info.input['value']
+
+#print(info.get_text())
+
+#detail = info.find_all('a',{'class': 'fullscreen'})
+
+prices = info.('span',{'class': 'price'})
+print(prices)
+
+'''
+location = []
+i=0
+for elem in detail:
+    location[i] = 
+    i=i+1
+'''
+#print(detail)
