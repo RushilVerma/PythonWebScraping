@@ -1,6 +1,8 @@
 #Code for WebScrapping 
 #Author: Rushil Verma
 #Description : For Nemish Technology Task
+#remove below comments to use 
+
 
 import requests
 from bs4 import BeautifulSoup
@@ -44,7 +46,7 @@ colms = ['BHK','Location','Prices (in Rupees)','Rates(per Square feet)','Area','
 raw_data = [[] for x in range (len(colms))]
 n=0
 for i in info.stripped_strings:
-    print(i+str(j)) #for each line corelation with j
+    #print(i+str(j)) #for each line corelation with j
     if(i=='Featured'):
         continue
     if(j==0):
@@ -83,7 +85,7 @@ for i in info.stripped_strings:
         '''
 
     j=j+1 #updating of arrayindex iterator
-print(raw_data[0])
+#print(raw_data[0])
 
 df = pd.DataFrame({colms[i]:raw_data[i] for i in range(len(colms))})
 print(df)
