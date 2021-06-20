@@ -2,7 +2,10 @@
 #Author: Rushil Verma
 #Description : For Nemish Technology Task
 import pandas as pd
+import xlsxwriter
+
 from typing import Text
+from pandas.core.indexes.base import Index
 import requests
 from bs4 import BeautifulSoup
 
@@ -28,43 +31,49 @@ prices = []
 rates = []
 area = []
 colms = ['location','prices','rates','area','facing','status','floor no.','furnish type','freehold','no. of bathrooms','Posted by','Date']
-raw_data = {'0': []}
+raw_data = [[] for x in range (len(colms))]
+# n=0
 for i in info.stripped_strings:
-    
+#    print(i+str(j)) #for each line corelation with j
     if(j==0):
-        raw_data[colms[0]]=i
+        raw_data[0].append(i)
     elif(j==2):
-        raw_data[colms[1]]=i
+        raw_data[1].append(i)
     elif(j==3):
-        raw_data[colms[2]]=i
+        raw_data[2].append(i)
     elif(j==5):
-        raw_data[colms[3]]=i
+        raw_data[3].append(i)
     elif(j==8):
-        raw_data[colms[4]]=i
+        raw_data[4].append(i)
     elif(j==10):
-        raw_data[colms[5]]=i
+        raw_data[5].append(i)
     elif(j==11):
-        raw_data[colms[6]]=i
+        raw_data[6].append(i)
     elif(j==12):
-        raw_data[colms[7]]=i
+        raw_data[7].append(i)
     elif(j==13):
-        raw_data[colms[8]]=i
+        raw_data[8].append(i)
     elif(j==14):
-        raw_data[colms[9]]=i
+        raw_data[9].append(i)
     elif(j==15):
-        raw_data[colms[10]]=i
+        raw_data[10].append(i)
     elif(j==16):
-        raw_data[colms[11]]=i    
+        raw_data[11].append(i)    
     elif(j==20):
         j=0
+        raw_data[0].append(i)  
+#        n=n+1         #for step by step debugging
+#        if(n==2):break
 
-    '''
-    print(i+str(j))
-    j=j+1
-    if(j==20):
-        j=0
-    '''
-    df = pd.DataFrame(raw_data,columns=colms)
-    file_name = 'Data2bhk.xlsx'
-    df.to_excel(file_name)
-    print('Process Successful!!')
+    j=j+1 #updating of arrayindex iterator
+    
+'''
+df = pd.DataFrame({colms[i]:raw_data[i] for i in range(12)})
+file_name = 'Data2bhk.xlsx'
+
+writer = pd.ExcelWriter(file_name, engine='xlsxwriter')
+
+df.to_excel(writer,sheet_name='Sheet1',index=False)
+writer.save()
+print('Process Successful!!')
+'''
