@@ -4,8 +4,6 @@
 import pandas as pd
 import xlsxwriter
 
-from typing import Text
-from pandas.core.indexes.base import Index
 import requests
 from bs4 import BeautifulSoup
 
@@ -26,11 +24,8 @@ totalEntries = info.find('input')['value']
 
 
 j=-3
-location = []
-prices = []
-rates = []
-area = []
-colms = ['location','prices','rates','area','facing','status','floor no.','furnish type','freehold','no. of bathrooms','Posted by','Date']
+
+colms = ['Location','Prices (in Rupees)','Rates(per Square feet)','Area(in Square Feet)','Facing','Status','Floor no.','Furnish type','Freehold','No. of bathrooms','Posted by','Posted Time']
 raw_data = [[] for x in range (len(colms))]
 # n=0
 for i in info.stripped_strings:
@@ -40,7 +35,7 @@ for i in info.stripped_strings:
     elif(j==2):
         raw_data[1].append(i)
     elif(j==3):
-        raw_data[2].append(i)
+        raw_data[2].append(i.replace("@","").replace("/Sq Ft.",""))
     elif(j==5):
         raw_data[3].append(i)
     elif(j==8):
@@ -58,7 +53,7 @@ for i in info.stripped_strings:
     elif(j==15):
         raw_data[10].append(i)
     elif(j==16):
-        raw_data[11].append(i)    
+        raw_data[11].append(i.replace('Posted:',' '))    
     elif(j==20):
         j=0
         raw_data[0].append(i)  
@@ -67,13 +62,13 @@ for i in info.stripped_strings:
 
     j=j+1 #updating of arrayindex iterator
     
-'''
-df = pd.DataFrame({colms[i]:raw_data[i] for i in range(12)})
+
+df = pd.DataFrame({colms[i]:raw_data[i] for i in range(len(colms))})
+print(df)
+
+#excel file name
 file_name = 'Data2bhk.xlsx'
 
-writer = pd.ExcelWriter(file_name, engine='xlsxwriter')
+df.to_excel(file_name,sheet_name='Sheet1',index=False)
 
-df.to_excel(writer,sheet_name='Sheet1',index=False)
-writer.save()
 print('Process Successful!!')
-'''
