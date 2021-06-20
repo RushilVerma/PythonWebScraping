@@ -94,4 +94,3 @@ file_name = 'Data_all_bhk.xlsx'
 df.to_excel(file_name,sheet_name='Sheet1',index=False)
 
 print('Process Successful!!')
-'''
